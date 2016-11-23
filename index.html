@@ -5,14 +5,79 @@
 </head>
 <body>
 	<script type="text/javascript">
-		function function_name(argument) {
-			// body...
+		var firstDigit;
+		var secondDigit;
+		var operator;
+		var result;
+		var numberLockOp = false;
+		var dotLock = false;
+
+		function addNumber(number) {
+			if (numberLockOp == true) {return};
+			document.getElementsByName('som')[0].value += number;
+			if (firstDigit != undefined && secondDigit != undefined) {calculate()}
+
+			if (operator == undefined) {
+				if (firstDigit == undefined) {
+					firstDigit = number;
+				} else {
+					firstDigit += number;
+				};
+			} else {
+				if (secondDigit == undefined) {
+					secondDigit = number;
+				} else {
+					secondDigit += number;
+				};
+			};
+		}
+
+		function addDot() {
+			if (dotLock == true) {return};
+			if (operator == undefined) {
+				if (firstDigit == undefined) {
+					firstDigit = '0.';
+				} else {
+					firstDigit += '.';
+				};
+			} else {
+				if (secondDigit == undefined) {
+					secondDigit = '0.';
+				} else {
+					secondDigit += '.';
+				};
+			};
+		}
+
+		function addOperator(op) {
+			if (firstDigit == undefined) {addNumber(0)};
+			if (firstDigit != undefined && secondDigit != undefined) {calculate()}
+			if (operator != undefined) {return};
+			operator = op;
+			document.getElementsByName('som')[0].value += op;
+			if (numberLockOp == true) {numberLockOp = false};
+		}
+
+		function calculate() {
+			if (secondDigit == undefined) {return};
+			switch(operator) {
+				case '+': result = ((firstDigit*10 + secondDigit*10)/10); break;
+				case '-': result = ((firstDigit*10 - secondDigit*10)/10); break;
+				case '/': result = ((firstDigit*10 / secondDigit*10)/100); break;
+				case 'X': result = ((firstDigit*10 * secondDigit*10)/100); break;
+			}
+			document.getElementsByName('som')[0].value += '=' + result;
+			operator = undefined;
+			firstDigit = result;
+			secondDigit = undefined;
+			numberLockOp = true;
+			return result;
 		}
 	</script>
-	<input type="text" name="result"><br>
-	<button type="button" onclick="" name="">7</button><button type="button" onclick="" name="">8</button><button type="button" onclick="" name="">9</button><br>
-	<button type="button" onclick="" name="">4</button><button type="button" onclick="" name="">5</button><button type="button" onclick="" name="">6</button><br>
-	<button type="button" onclick="" name="">1</button><button type="button" onclick="" name="">2</button><button type="button" onclick="" name="">3</button><br>
-	<button type="button" onclick="" name="">0</button><button type="button" onclick="" name="">.</button><br>
+	<input type="text" name="som" disabled=""><button type="button" onclick="calculate()" name="">=</button><br>
+	<button type="button" onclick="addNumber(7)" name="">7</button><button type="button" onclick="addNumber(8)" name="">8</button><button type="button" onclick="addNumber(9)" name="">9</button><button type="button" onclick="addOperator('+')" name="">+</button><br>
+	<button type="button" onclick="addNumber(4)" name="">4</button><button type="button" onclick="addNumber(5)" name="">5</button><button type="button" onclick="addNumber(6)" name="">6</button><button type="button" onclick="addOperator('-')" name="">-</button><br>
+	<button type="button" onclick="addNumber(1)" name="">1</button><button type="button" onclick="addNumber(2)" name="">2</button><button type="button" onclick="addNumber(3)" name="">3</button><button type="button" onclick="addOperator('/')" name="">/</button><br>
+	<button type="button" onclick="addNumber(0)" name="" style="padding: 0 21.5px;">0</button><button type="button" onclick="" name="">.</button><button type="button" onclick="addOperator('X')" name="">X</button><br>
 </body>
 </html>
