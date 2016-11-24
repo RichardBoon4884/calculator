@@ -9,44 +9,36 @@
 		var secondDigit;
 		var operator;
 		var result;
-		var numberLockOp = false;
-		var dotLock = false;
+		var numberLockOp = false; // Only a operator can added after calculating a som.
+		var dotLockFirst = false; // Only one singe dot can entered.
+		var dotLockSecond = false;
 
 		function addNumber(number) {
 			if (numberLockOp == true) {return};
-			document.getElementsByName('som')[0].value += number;
-			if (firstDigit != undefined && secondDigit != undefined) {calculate()}
+			
 
 			if (operator == undefined) {
 				if (firstDigit == undefined) {
+					if (number == '.') {if (dotLockFirst == true) {return;};};
+					if (number == '.') {number = 0 + '.'; dotLockFirst = true;};
 					firstDigit = number;
 				} else {
+					if (number == '.') {if (dotLockFirst == true) {return;};};
+					if (number == '.') {dotLockFirst = true;};
 					firstDigit += number;
 				};
 			} else {
 				if (secondDigit == undefined) {
+					if (number == '.') {if (dotLockSecond == true) {return;};};
+					if (number == '.') {number = 0 + '.';  dotLockSecond = true;};
 					secondDigit = number;
 				} else {
+					if (number == '.') {if (dotLockSecond == true) {return;};};
+					if (number == '.') {dotLockSecond = true;};
 					secondDigit += number;
 				};
 			};
-		}
-
-		function addDot() {
-			if (dotLock == true) {return};
-			if (operator == undefined) {
-				if (firstDigit == undefined) {
-					firstDigit = '0.';
-				} else {
-					firstDigit += '.';
-				};
-			} else {
-				if (secondDigit == undefined) {
-					secondDigit = '0.';
-				} else {
-					secondDigit += '.';
-				};
-			};
+			document.getElementsByName('som')[0].value += number;
 		}
 
 		function addOperator(op) {
@@ -71,6 +63,7 @@
 			firstDigit = result;
 			secondDigit = undefined;
 			numberLockOp = true;
+			dotLockSecond = false;
 			return result;
 		}
 	</script>
@@ -78,6 +71,6 @@
 	<button type="button" onclick="addNumber(7)" name="">7</button><button type="button" onclick="addNumber(8)" name="">8</button><button type="button" onclick="addNumber(9)" name="">9</button><button type="button" onclick="addOperator('+')" name="">+</button><br>
 	<button type="button" onclick="addNumber(4)" name="">4</button><button type="button" onclick="addNumber(5)" name="">5</button><button type="button" onclick="addNumber(6)" name="">6</button><button type="button" onclick="addOperator('-')" name="">-</button><br>
 	<button type="button" onclick="addNumber(1)" name="">1</button><button type="button" onclick="addNumber(2)" name="">2</button><button type="button" onclick="addNumber(3)" name="">3</button><button type="button" onclick="addOperator('/')" name="">/</button><br>
-	<button type="button" onclick="addNumber(0)" name="" style="padding: 0 21.5px;">0</button><button type="button" onclick="" name="">.</button><button type="button" onclick="addOperator('X')" name="">X</button><br>
+	<button type="button" onclick="addNumber(0)" name="" style="padding: 0 21.5px;">0</button><button type="button" onclick="addNumber('.')" name="">.</button><button type="button" onclick="addOperator('X')" name="">X</button><br>
 </body>
 </html>
