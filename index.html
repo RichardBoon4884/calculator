@@ -9,14 +9,12 @@
 		var secondDigit;
 		var operator;
 		var result;
-		var numberLockOp = false; // Only a operator can added after calculating a som.
+		var numberLockOp = false; // Only one operator can added.
 		var dotLockFirst = false; // Only one singe dot can entered.
 		var dotLockSecond = false;
 
 		function addNumber(number) {
 			if (numberLockOp == true) {return};
-			
-
 			if (operator == undefined) {
 				if (firstDigit == undefined) {
 					if (number == '.') {if (dotLockFirst == true) {return;};};
@@ -50,7 +48,7 @@
 			if (numberLockOp == true) {numberLockOp = false};
 		}
 
-		function calculate() {
+		function calculate() { // Where the magic happens!
 			if (secondDigit == undefined) {return};
 			switch(operator) {
 				case '+': result = ((firstDigit*10 + secondDigit*10)/10); break;
@@ -58,7 +56,7 @@
 				case '/': result = ((firstDigit*10 / secondDigit*10)/100); break;
 				case 'X': result = ((firstDigit*10 * secondDigit*10)/100); break;
 			}
-			document.getElementsByName('som')[0].value += '=' + result;
+			document.getElementsByName('som')[0].value = result;
 			operator = undefined;
 			firstDigit = result;
 			secondDigit = undefined;
@@ -66,8 +64,19 @@
 			dotLockSecond = false;
 			return result;
 		}
+
+		function cleanCalc() {
+			firstDigit = undefined;
+			secondDigit = undefined;
+			operator = undefined;
+			result = undefined;
+			numberLockOp = false;
+			dotLockFirst = false;
+			dotLockSecond = false;
+			document.getElementsByName('som')[0].value = '';
+		}
 	</script>
-	<input type="text" name="som" disabled=""><button type="button" onclick="calculate()" name="">=</button><br>
+	<input type="text" name="som" disabled=""><button type="button" onclick="calculate()" name="">=</button><button type="button" onclick="cleanCalc()" name="">C</button><br>
 	<button type="button" onclick="addNumber(7)" name="">7</button><button type="button" onclick="addNumber(8)" name="">8</button><button type="button" onclick="addNumber(9)" name="">9</button><button type="button" onclick="addOperator('+')" name="">+</button><br>
 	<button type="button" onclick="addNumber(4)" name="">4</button><button type="button" onclick="addNumber(5)" name="">5</button><button type="button" onclick="addNumber(6)" name="">6</button><button type="button" onclick="addOperator('-')" name="">-</button><br>
 	<button type="button" onclick="addNumber(1)" name="">1</button><button type="button" onclick="addNumber(2)" name="">2</button><button type="button" onclick="addNumber(3)" name="">3</button><button type="button" onclick="addOperator('/')" name="">/</button><br>
